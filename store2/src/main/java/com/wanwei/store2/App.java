@@ -41,6 +41,8 @@ public class App
 	  private static final String RECORDING_EXT = ".webm";
 //	  protected static final String DEFAULT_REPOSITORY_SERVER_URI = "http://localhost:7674";
 	  protected static final String DEFAULT_REPOSITORY_SERVER_URI = "file:///tmp/";
+		protected static final String REPOSITORY_SERVER_URI = System.getProperty("repository.uri",
+		        DEFAULT_REPOSITORY_SERVER_URI);
 	final static String DEFAULT_KMS_WS_URI = "ws://localhost:8888/kurento";
 	//这个时间是表示开始接受数据后　多少秒钟开始存数据
 	final String BEGIN_RECORD_TIME="6";
@@ -50,8 +52,8 @@ public class App
 		  kurento= KurentoClient.create(System.getProperty("kms.url", DEFAULT_KMS_WS_URI));
 		  /*repositoryClient=RepositoryClientProvider.create(System.getProperty("repository.uri",
 			        DEFAULT_REPOSITORY_SERVER_URI));*/
-		  repositoryClient=DEFAULT_REPOSITORY_SERVER_URI.startsWith("file://") ? null
-		            : RepositoryClientProvider.create(DEFAULT_REPOSITORY_SERVER_URI);
+		  repositoryClient=REPOSITORY_SERVER_URI.startsWith("file://") ? null
+		            : RepositoryClientProvider.create(REPOSITORY_SERVER_URI);
 		  register=new UserRegistry();
 	  }
 	public Boolean start(final String videourl,final String id) {
@@ -106,7 +108,7 @@ public class App
 	          }
 	        } else {
 	          String now = df.format(new Date());
-	          String filePath = DEFAULT_REPOSITORY_SERVER_URI  + now + RECORDING_EXT;
+	          String filePath = REPOSITORY_SERVER_URI  + now + RECORDING_EXT;
 	          repoItem = new RepositoryItemRecorder();
 	          repoItem.setId(now);
 	          repoItem.setUrl(filePath);
