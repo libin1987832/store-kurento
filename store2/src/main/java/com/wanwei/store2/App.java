@@ -2,7 +2,9 @@ package com.wanwei.store2;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -33,9 +35,12 @@ public class App
 	private KurentoClient kurento;
 	private UserRegistry register;
 	private RepositoryClient repositoryClient;
+	private final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss-S");
 	  //private static final String RECORDER_FILE_PATH = "file:///home/lb/sdb/HelloWorldRecorded.webm";
 	//private static final String RECORDER_FILE_PATH = "file:///tmp/HelloWorldRecorded.webm" ;
-	  protected static final String DEFAULT_REPOSITORY_SERVER_URI = "http://localhost:7674";
+	  private static final String RECORDING_EXT = ".webm";
+//	  protected static final String DEFAULT_REPOSITORY_SERVER_URI = "http://localhost:7674";
+	  protected static final String DEFAULT_REPOSITORY_SERVER_URI = "file:///tmp/";
 	final static String DEFAULT_KMS_WS_URI = "ws://localhost:8888/kurento";
 	//这个时间是表示开始接受数据后　多少秒钟开始存数据
 	final String BEGIN_RECORD_TIME="6";
@@ -43,8 +48,10 @@ public class App
 	final static String RECORD_TIME_MIN="1";
 	  App(){
 		  kurento= KurentoClient.create(System.getProperty("kms.url", DEFAULT_KMS_WS_URI));
-		  repositoryClient=RepositoryClientProvider.create(System.getProperty("repository.uri",
-			        DEFAULT_REPOSITORY_SERVER_URI));
+		  /*repositoryClient=RepositoryClientProvider.create(System.getProperty("repository.uri",
+			        DEFAULT_REPOSITORY_SERVER_URI));*/
+		  repositoryClient=DEFAULT_REPOSITORY_SERVER_URI.startsWith("file://") ? null
+		            : RepositoryClientProvider.create(DEFAULT_REPOSITORY_SERVER_URI);
 		  register=new UserRegistry();
 	  }
 	public Boolean start(final String videourl,final String id) {
@@ -94,13 +101,28 @@ public class App
 	            Map<String, String> metadata = Collections.emptyMap();
 	            repoItem = repositoryClient.createRepositoryItem(metadata);
 	          } catch (Exception e) {
+	        	   System.out.println("Unable to create kurento repository items"+e.getMessage());
+		            return false;
+	          }
+	        } else {
+	          String now = df.format(new Date());
+	          String filePath = DEFAULT_REPOSITORY_SERVER_URI  + now + RECORDING_EXT;
+	          repoItem = new RepositoryItemRecorder();
+	          repoItem.setId(now);
+	          repoItem.setUrl(filePath);
+	        }
+	      /*if (repositoryClient != null) {
+	          try {
+	            Map<String, String> metadata = Collections.emptyMap();
+	            repoItem = repositoryClient.createRepositoryItem(metadata);
+	          } catch (Exception e) {
 	            System.out.println("Unable to create kurento repository items"+e.getMessage());
 	            return false;
 	          }
 	        } else {
 	        	System.out.print("repository is null");
 	        	return false;
-	        }
+	        }*/
 	      user.setRepositoryItemRecorder(repoItem);   
 	      MediaProfileSpecType profile = getMediaProfileFromMessage();
 
