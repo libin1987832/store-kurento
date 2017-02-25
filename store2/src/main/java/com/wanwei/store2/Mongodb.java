@@ -16,8 +16,13 @@ public class Mongodb {
 	private final static String MONGO_HOST_PORT="27017";
 	private final static String MONGO_DB_NAME="testdb";
 	private final static String MONGO_DB_COLLECTION="user";
-
-	public static void insert(String id,String robotid,String cameraIp){
+	protected static final String DEFAULT_ROBOT_ID = "0";
+	protected static final String DEFAULT_CAMERA_IP = "0.0.0.0";
+	protected static final String ROBOT_ID = System.getProperty("robot.id",
+			DEFAULT_ROBOT_ID);
+	protected static final String CAMERA_IP = System.getProperty("camera.ip",
+			DEFAULT_CAMERA_IP);
+	public static void insert(String id){
 		try{
 
 		MongoClient mongo = new MongoClient(System.getProperty("mongo.ip",
@@ -30,8 +35,8 @@ public class Mongodb {
 		/**** Insert ****/
 		// create a document to store key and value
 		Document document = new Document();
-		document.put("robotId", robotid);
-		document.put("cameraIp", cameraIp);
+		document.put("robotId", ROBOT_ID);
+		document.put("cameraIp", CAMERA_IP);
 		document.put("id", id);
 		document.put("startTime", new Date());
 		document.put("endTime", "0");

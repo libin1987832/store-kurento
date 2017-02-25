@@ -43,12 +43,7 @@ public class App
 	  protected static final String DEFAULT_REPOSITORY_SERVER_URI = "file:///tmp/";
 		protected static final String REPOSITORY_SERVER_URI = System.getProperty("repository.uri",
 		        DEFAULT_REPOSITORY_SERVER_URI);
-		protected static final String DEFAULT_ROBOT_ID = "0";
-		protected static final String DEFAULT_CAMERA_IP = "0.0.0.0";
-		protected static final String ROBOT_ID = System.getProperty("robot.id",
-				DEFAULT_ROBOT_ID);
-		protected static final String CAMERA_IP = System.getProperty("camera.ip",
-				DEFAULT_CAMERA_IP);
+		
 	final static String DEFAULT_KMS_WS_URI = "ws://localhost:8888/kurento";
 	//这个时间是表示开始接受数据后　多少秒钟开始存数据
 	final String BEGIN_RECORD_TIME="6";
@@ -141,7 +136,7 @@ public class App
 	      recorder.addRecordingListener(new EventListener<RecordingEvent>() {
 	      // @Override
 	        public void onEvent(RecordingEvent event) {
-	        	Mongodb.insert(user.getRepositoryItemRecorder().getId(),ROBOT_ID,CAMERA_IP);
+	        	Mongodb.insert(user.getRepositoryItemRecorder().getId());
 	        	System.out.println("RecordingListener");
 	       }
 	      });
