@@ -45,6 +45,8 @@ public class App
 		        DEFAULT_REPOSITORY_SERVER_URI);
 		
 	final static String DEFAULT_KMS_WS_URI = "ws://localhost:8888/kurento";
+	final static String DEFAULT_RTSP = "rtsp://10.19.10.155:8554/aa.mkv";
+	final static String DEFAULT_CAMERA_ID = "0";
 	//这个时间是表示开始接受数据后　多少秒钟开始存数据
 	final String BEGIN_RECORD_TIME="6";
 	//这个时间是正常情况下默认记录多长的视频
@@ -66,7 +68,7 @@ public class App
 	    	user.setMediaPipeline(pipeline);
 	    	final PlayerEndpoint playerEndpoint = new PlayerEndpoint.Builder(pipeline, videourl).build();
 	    	user.setPlayerEndpoint(playerEndpoint);
-	     
+	     //playerEndpoint.add
 	      // Player listeners
 	      playerEndpoint.addErrorListener(new EventListener<ErrorEvent>() {
 	        public void onEvent(ErrorEvent event) {
@@ -262,7 +264,7 @@ public class App
         myThread1.start();
        while(app.getKurento()){
     	   System.out.println( "start!" );
-    	   Boolean flag=app.start("rtsp://10.19.10.155:8554/aa.mkv", "0");
+    	   Boolean flag=app.start(System.getProperty("RTSP",DEFAULT_RTSP), System.getProperty("CAMERA_ID",DEFAULT_CAMERA_ID));
     	   int sumSecond=0;
     	   final int time_minutes=Integer.valueOf(System.getProperty("record_time_minutes", RECORD_TIME_MIN));
     	   while(app.getUser("0"))
