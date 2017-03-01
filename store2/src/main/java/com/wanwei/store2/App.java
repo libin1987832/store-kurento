@@ -102,7 +102,7 @@ public class App
 	    	  System.out.println("url is invail!");
 	    	  return false;
 	      }
-	      System.out.print("play OK,begin stream");
+	      System.out.println("play OK,begin stream");
 	      RepositoryItemRecorder repoItem = null;
 	      if (repositoryClient != null) {
 	          try {

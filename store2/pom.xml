@@ -72,6 +72,11 @@
     <artifactId>mongo-java-driver</artifactId>
     <version>3.4.0</version>
 </dependency>
+<dependency>
+<groupId>org.slf4j</groupId>
+<artifactId>slf4j-nop</artifactId>
+<version>1.7.6</version>
+</dependency>
 <!--  <dependency>
     <groupId>ch.qos.logback</groupId>
     <artifactId>logback-classic</artifactId>
