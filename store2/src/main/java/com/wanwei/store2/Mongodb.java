@@ -1,6 +1,8 @@
 package com.wanwei.store2;
 
 import java.util.Date;
+import java.util.logging.LogManager;
+
 import org.bson.Document;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -10,8 +12,18 @@ import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-public class Mongodb {
 
+import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+public class Mongodb {
+	
+	static Logger root = (Logger) LoggerFactory
+	        .getLogger(Logger.ROOT_LOGGER_NAME);
+
+	static {
+	    root.setLevel(Level.ERROR);
+	}
 	private final static String MONGO_HOST_IP="localhost";
 	private final static String MONGO_HOST_PORT="27017";
 	private final static String MONGO_DB_NAME="testdb";

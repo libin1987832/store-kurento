@@ -44,9 +44,12 @@ public class App
 		protected static final String REPOSITORY_SERVER_URI = System.getProperty("repository.uri",
 		        DEFAULT_REPOSITORY_SERVER_URI);
 		
-	final static String DEFAULT_KMS_WS_URI = "ws://localhost:8888/kurento";
-	final static String DEFAULT_RTSP = "rtsp://10.19.10.155:8554/aa.mkv";
+	final static String DEFAULT_KMS_WS_URI = "ws://10.19.10.155:8888/kurento";
+	final static String DEFAULT_RTSP = "rtsp://10.19.10.153:10554/aa";
 	final static String DEFAULT_CAMERA_ID = "0";
+	protected static final String DEFAULT_RECORD_TYPR = "video-only";
+	protected static final String RECORD_TYPR = System.getProperty("RECORD_TYPR",
+	        DEFAULT_REPOSITORY_SERVER_URI);
 	//这个时间是表示开始接受数据后　多少秒钟开始存数据
 	final String BEGIN_RECORD_TIME="6";
 	//这个时间是正常情况下默认记录多长的视频
@@ -116,20 +119,8 @@ public class App
 	          repoItem.setId(now);
 	          repoItem.setUrl(filePath);
 	        }
-	      /*if (repositoryClient != null) {
-	          try {
-	            Map<String, String> metadata = Collections.emptyMap();
-	            repoItem = repositoryClient.createRepositoryItem(metadata);
-	          } catch (Exception e) {
-	            System.out.println("Unable to create kurento repository items"+e.getMessage());
-	            return false;
-	          }
-	        } else {
-	        	System.out.print("repository is null");
-	        	return false;
-	        }*/
 	      user.setRepositoryItemRecorder(repoItem);   
-	      MediaProfileSpecType profile = getMediaProfileFromMessage();
+	      MediaProfileSpecType profile = getMediaProfileFromMessage(RECORD_TYPR);
 
 	      RecorderEndpoint recorder = new RecorderEndpoint.Builder(pipeline, repoItem.getUrl())
 	      .withMediaProfile(profile).build();
@@ -181,10 +172,10 @@ public class App
 	    return true;
 	  }
 
-	  private MediaProfileSpecType getMediaProfileFromMessage() {
+	  private MediaProfileSpecType getMediaProfileFromMessage(String type) {
 
 	    MediaProfileSpecType profile;
-	 /*   switch (jsonMessage.get("mode").getAsString()) {
+	    switch (type) {
 	      case "audio-only":
 	        profile = MediaProfileSpecType.WEBM_AUDIO_ONLY;
 	        break;
@@ -193,8 +184,7 @@ public class App
 	        break;
 	      default:
 	        profile = MediaProfileSpecType.WEBM;
-	    }*/
-	    profile = MediaProfileSpecType.WEBM;
+	    }
 	    return profile;
 	  }
 
