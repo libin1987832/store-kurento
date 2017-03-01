@@ -12,18 +12,18 @@ import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-
+/*
 import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.Logger;*/
 public class Mongodb {
 	
-	static Logger root = (Logger) LoggerFactory
+	/*static Logger root = (Logger) LoggerFactory
 	        .getLogger(Logger.ROOT_LOGGER_NAME);
 
 	static {
 	    root.setLevel(Level.ERROR);
-	}
+	}*/
 	private final static String MONGO_HOST_IP="localhost";
 	private final static String MONGO_HOST_PORT="27017";
 	private final static String MONGO_DB_NAME="testdb";
@@ -86,5 +86,8 @@ public class Mongodb {
 	    } catch (MongoException e) {
 	    	e.printStackTrace();
 	    }
+	}
+	public static void main( String[] args ){
+		insert("99999");
 	}
 }

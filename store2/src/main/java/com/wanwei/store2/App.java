@@ -173,18 +173,23 @@ public class App
 	  }
 
 	  private MediaProfileSpecType getMediaProfileFromMessage(String type) {
-
-	    MediaProfileSpecType profile;
-	    switch (type) {
-	      case "audio-only":
+		  MediaProfileSpecType profile;
+	/*	 int typeint=1;
+		 if("audio-only".equals(type))
+			 typeint=0;
+		 if("all".equals(type))
+			 typeint=2; 
+	    switch (typeint) {
+	      case 0:
 	        profile = MediaProfileSpecType.WEBM_AUDIO_ONLY;
 	        break;
-	      case "video-only":
+	      case 1:
 	        profile = MediaProfileSpecType.WEBM_VIDEO_ONLY;
 	        break;
 	      default:
 	        profile = MediaProfileSpecType.WEBM;
-	    }
+	    }*/
+		  profile = MediaProfileSpecType.WEBM_VIDEO_ONLY;
 	    return profile;
 	  }
 
